@@ -1,5 +1,5 @@
 # HeyStyx: DEIN Chat-Bot für Discord
-Ein allgemeiner Bot, welcher viele APIs benutzt, um den Nutzern das bestmögliche Erlebniss zu bieten.
+Ein allgemeiner Discord-Bot, welcher einige APIs benutzt, um den Nutzern das bestmögliche Erlebnis zu bieten.
 
 ## Installation & Einrichtung
 
