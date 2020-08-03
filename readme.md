@@ -11,5 +11,5 @@ Ein allgemeiner Discord-Bot, welcher einige APIs benutzt, um den Nutzern das bes
 |Zahl der Server, die den Bot nutzen|2|
 |Bot-Konto|-|
 
-# [Installation & Einrichtung](https://github.com/nsde/HeyStyx/wiki/installation)
-# [Funktionen](https://github.com/nsde/HeyStyx/wiki/funktionen)
+# [⚙️Installation & Einrichtung](https://github.com/nsde/HeyStyx/wiki/installation)
+# [✨Funktionen](https://github.com/nsde/HeyStyx/wiki/funktionen)
