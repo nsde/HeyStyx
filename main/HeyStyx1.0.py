@@ -2,7 +2,8 @@ appVersion = 1.0
 appStatus = 'Alpha'
 
 # TOKEN GEHEIM!!!
-token = 'NzM5NTU2Njc4ODMxMTc3NzQw.XycL1A.e-P2anfPzTci0SMyR6LzPuz95kA'
+token = 'MzM5NTU2Njc4ODMxMTc3NzQw.XycL1A.e-P2anfPzTci0SMyR6LzPuz95kA'
+#das erste M = N!
 
 # HeyStyx Discord Bot
 # For information, see: github.com/nsde/heystyx/
