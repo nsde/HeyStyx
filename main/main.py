@@ -1,7 +1,6 @@
 appVersion = 1.0
 appStatus = 'Alpha'
 
-# TOKEN GEHEIM!!!
 token = ''
 
 # HeyStyx Discord Bot
@@ -14,6 +13,7 @@ import json
 import discord as dc
 import requests as rq
 import wikipedia as wiki
+from time import asctime, sleep, localtime, time
 from random import randint as rdi
 
 cmdPrefix = '§'
@@ -24,9 +24,27 @@ class MyClient(dc.Client):
     #Einloggen
     async def on_ready(self):
         print('Eingeloggt.')
-        await client.change_presence(activity=dc.Activity(type=dc.ActivityType.listening, name="eure Befehle!"))
+        channel = self.get_channel(740526658699657306)
+        
+        timeEdit = str(asctime(localtime(time())))
+        timeEdit = timeEdit.replace('  ', '')
+        timeList = timeEdit.split(' ')
+        timeEdit = timeList[2]
+        timeEdit += ', ' + timeList[1] + '. '
+
+        await client.change_presence(status=dc.Status.online, activity=dc.Game('seit ' + timeEdit))
+        await channel.send(':green_circle: Bot jetzt online. Zeit: ' + timeEdit)
+
+        botPw = rdi(0,999)
+        print(botPw)
 
 
+    async def on_error(self):
+        print('Bot-Fehler')
+
+    async def on_disconnect(self):
+        print('Bot geschlossen.')
+    
 
     async def on_message(self, message):
         if message.author == client.user:
@@ -37,25 +55,44 @@ class MyClient(dc.Client):
             cmd = message.content
             cmdEnd = cmd[6:]
             wikiSearch = wiki.search(cmdEnd)
-            wikiSearch = str(wikiSearch)
+            wikiSearch = str(wikiSearch[:5])
             wikiSearch = wikiSearch.replace("'",'"') # lol
             wikiSearch = wikiSearch.replace('[','')
             wikiSearch = wikiSearch.replace(']','')
 
+            wikiSum = wiki.summary(cmdEnd, sentences=10)
+            wikiSum = wikiSum.replace('== ', ':white_medium_small_square: **')
+            wikiSum = wikiSum.replace(' ==', '**')
+            wikiSum = wikiSum.replace('''
+
+''', '''
+''')
+
+            wikiSum = wikiSum.replace('=:white_medium_small_square: ', ':white_small_square: ')
+            wikiSum = wikiSum.replace('''=
+''', '\n')
+
             try:
-                outp_Content = ':mag_right: Ähnliche Themen für den Suchbegriff: ' + wikiSearch + ' :mag_right: \n\n' + wiki.summary(cmdEnd, sentences = 1000)
+                outp_Content = ':mag_right: Ähnliche Themen: ' + wikiSearch + ' \n'+ '▔'*50 + '\n' + wikiSum
+
             except:
                 outp_Content = (':x: Tut mir leid, da ist wohl was schief gelaufen. Versuche es nochmal!')
 
             try:
-                await message.channel.send(outp_Content)
+                # await message.channel.send(outp_Content)
+                embed = dc.Embed(colour=dc.Colour(0x52b0ff), description=f'{outp_Content}')
+                embed.set_thumbnail(url='https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/270px-Wikipedia-logo-v2.svg.png')
+                embed.set_author(name='Wikipedia Search')
+                embed.set_footer(text='HeyStyx Bot', icon_url='https://betaneostyx.files.wordpress.com/2020/07/dcstyxbot-1.png')
+                await channel.send(embed=embed)
+
+            # except:
+
+            #     try:
+            #         await message.channel.send(outp_Content[:2000] + '\n _Artikel gekürzt._')
 
             except:
-                try:
-                    await message.channel.send(outp_Content[:1900] + '**...\n :exclamation: Der Artikel musste aus technischen Gründen gekürzt werden!**')
-
-                except:
-                    await message.channel.send(':x: Der Begriff "'+ cmdEnd + '" konnte leider nicht gefunden werden. Möglicherweise ist "' + lang + '" die falsche Sprache?')
+                await message.channel.send(':x: Der Begriff "'+ cmdEnd + '" konnte leider nicht gefunden werden. Möglicherweise ist "' + lang + '" die falsche Sprache?')
 
 
         if message.content.startswith(cmdPrefix + 'wiki.lang'):
@@ -65,23 +102,59 @@ class MyClient(dc.Client):
             await message.channel.send(':white_check_mark: Sprache geändert zu "' + lang + '".')
             
 
-
-                # embed = dc.Embed(colour=dc.Colour(0x52b0ff), description=f'{outp_Content}')
-                # embed.set_thumbnail(url='https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/270px-Wikipedia-logo-v2.svg.png')
-                # embed.set_author(name='Wikipedia Search')
-                # embed.set_footer(text='HeyStyx Bot', icon_url='https://betaneostyx.files.wordpress.com/2020/07/dcstyxbot-1.png')
-                # message.channel.send(embed=embed)
-
-        if message.content.startswith(cmdPrefix + 'cmd'):
+        if message.content.startswith(cmdPrefix + 'py'):
             cmd = message.content
-            cmdEnd = cmd[5:]
+            cmdEnd = cmd[4:]
             
             try:
-                outpCMD = exec(cmdEnd)
-                await message.channel.send(outpCMD)
+                outpCMD = eval(cmdEnd)
+
+                if outpCMD == 'None' or outpCMD == '':
+                    outpCMD = ':warning: Ausgabe ist leer.'
+
+                elif outpCMD == 69:
+                    outpCMD = "( ͡° ͜ʖ ͡°)"
+                    # outpCMD = "(\u0361\u00B0\u035C\u0296\u0361\u00B0)" # lennyface easteregg
+
+                else:
+                    pass
+
+                await message.channel.send('```' + str(outpCMD) + '```')
 
             except:
-                await message.channel.send('Ungültiger Befehl. Versuche es noch einmal.')
+                await message.channel.send(':x: Ungültiger "eval()"-Befehl. Versuche es noch einmal.')
+
+        
+        if message.content.startswith(cmdPrefix + 'off ' + str(botPw)):
+            timeEdit = str(asctime(localtime(time())))
+            timeEdit = timeEdit.replace('  ', '')
+            timeList = timeEdit.split(' ')
+            timeEdit = timeList[2]
+            timeEdit += ', ' + timeList[1] + '. '
+
+            channel = self.get_channel(740526658699657306)
+            await client.change_presence(status=dc.Status.idle, activity=dc.Game('off seit ' + timeEdit))
+            await message.channel.send('Neues Passwort wurde generiert.\n :warning: **BOT WIRD UMPROGRAMMIERT!**')
+            await channel.send(':red_circle: Bot jetzt inaktiv. Zeit: ' + timeEdit)
+
+            botPw = rdi(0,999)
+            print(botPw)
+
+
+        if message.content.startswith(cmdPrefix + 'on ' + str(botPw)):
+            timeEdit = str(asctime(localtime(time())))
+            timeEdit = timeEdit.replace('  ', '')
+            timeList = timeEdit.split(' ')
+            timeEdit = timeList[2]
+            timeEdit += ', ' + timeList[1] + '. '
+
+            channel = self.get_channel(740526658699657306)
+            await client.change_presence(status=dc.Status.online, activity=dc.Game('wieder seit ' + timeEdit))
+            await message.channel.send('Neues Passwort wurde generiert.\n :green_circle: **BOT WIEDER AKTIV!**')
+            await channel.send(':blue_circle: Bot wieder online. Zeit: ' + timeEdit)
+
+            botPw = rdi(0,999)
+            print(botPw)
 
 
 
