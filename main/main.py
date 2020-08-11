@@ -17,7 +17,7 @@ import wikipedia as wiki
 from time import asctime, sleep, localtime, time
 from random import randint as rdi
 
-cmdPrefix = '§'
+cmdPrefix = '.'
 wiki.set_lang('de')
 lang = 'de'
 
