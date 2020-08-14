@@ -1,14 +1,24 @@
-appVersion = 1.0
+appVersion = 0.01
 appStatus = 'Alpha'
 
-# TOKEN GEHEIM!!!
-token = ''
+# Alpha = very unstable
+# Beta = unstable
+# Release = stable
+
+'''PLEASE READ THE LICENSE FILE! IF YOU WANT TO PUBLISH YOUR VERSION OF THIS PROGRAM,
+YOU MAY LEAVE ALL THE CODE AND COMMENTS AS THEY ARE TILL THE LINE SAYING
+'# You can modify the code below:' (INCLUDING IT) - THANK YOU!
+'''
 
 # HeyStyx Discord Bot
 # For information, see: github.com/nsde/heystyx/
-# Created in 2020 with <3 by:
+# Created in Germany in 2020 with <3 by:
 # Felix Orosz (github@nsde) and Benedikt (github@beban09)
 # Huge thanks to 'The Morpheus Tutorials' and 'https://leovoel.github.io/embed-visualizer/'
+
+# You can modify the code below:
+
+token = ''
 
 import json
 import discord as dc
@@ -20,7 +30,6 @@ from random import randint as rdi
 cmdPrefix = '.'
 wiki.set_lang('de')
 lang = 'de'
-
 class MyClient(dc.Client):
 
     #Einloggen
