@@ -44,7 +44,7 @@ class MyClient(dc.Client):
         timeEdit = timeList[2]
         timeEdit += ', ' + timeList[1] + '. '
 
-        # Status setzen und loggen
+        # set status and log
         await client.change_presence(status=dc.Status.online, activity=dc.Game('seit ' + timeEdit))
         await channel.send(':green_circle: Bot jetzt online. Zeit: ' + timeEdit)
 
@@ -149,13 +149,13 @@ class MyClient(dc.Client):
             timeEdit = timeList[2]
             timeEdit += ', ' + timeList[1] + '. '
 
-            # Status setzen und loggen
+            # set status and lo
             channel = self.get_channel(740526658699657306)
             await client.change_presence(status=dc.Status.idle, activity=dc.Game('off seit ' + timeEdit))
             await message.channel.send('Neues Passwort wurde generiert.\n :warning: **BOT WIRD UMPROGRAMMIERT!**')
             await channel.send(':red_circle: Bot jetzt inaktiv. Zeit: ' + timeEdit)
 
-            # Passwort aktualisieren und ausgeben
+            # update password and output
             botPw = rdi(0,999)
             print(botPw)
 
@@ -168,18 +168,18 @@ class MyClient(dc.Client):
             timeEdit = timeList[2]
             timeEdit += ', ' + timeList[1] + '. '
 
-            # Status setzen und loggen
+            # set status and log
             channel = self.get_channel(740526658699657306)
             await client.change_presence(status=dc.Status.online, activity=dc.Game('wieder seit ' + timeEdit))
             await message.channel.send('Neues Passwort wurde generiert.\n :green_circle: **BOT WIEDER AKTIV!**')
             await channel.send(':blue_circle: Bot wieder online. Zeit: ' + timeEdit)
 
-            # Passwort aktualisieren und ausgeben
+            # update password and output
             botPw = rdi(0,999)
             print(botPw)
 
 
 
-# Client Run
+# client run
 client = MyClient()
 client.run(token)
